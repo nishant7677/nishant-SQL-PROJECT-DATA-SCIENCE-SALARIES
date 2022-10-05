@@ -46,7 +46,7 @@ LIMIT 1)
 /*What is the average salary for US and nonUS countries?*/
 SELECT 
 		CASE
-				WHEN company_location = 'US' then "US"
+			WHEN company_location = 'US' then "US"
 		ELSE "nonUS"
         end as location,
 	ROUND(AVG(salary_in_usd)) avg_salary
@@ -68,7 +68,7 @@ LIMIT 177,1
 /*# What is the average salary for entries by experience level?*/
 SELECT 
 		CASE
-				WHEN company_location = 'US' then "US"
+			WHEN company_location = 'US' then "US"
 		ELSE "nonUS"
         END AS location,
 	ROUND(AVG(salary_in_usd),0) as average_salary,
@@ -80,7 +80,7 @@ order by location, average_salary desc;
 /*# What is the average salary for each year?*/
 SELECT
 		CASE 
-				WHEN company_location = 'US' then "US"
+			WHEN company_location = 'US' then "US"
 		ELSE "nonUS"
         END AS location,
         work_year,
@@ -91,7 +91,7 @@ ORDER BY location desc, work_year
 
 /*# How many senior and executive positions are in dataset for each year?*/
 SELECT
-		experience_level,
+	experience_level,
         count(experience_level) entries_experience_level,
         work_year
 from ds_salaries
@@ -110,11 +110,11 @@ group by work_year
 /*# How many remote/hybrid/office positions are in each group?*/
 SELECT 
 		CASE
-				WHEN company_location = 'US' then "US"
+			WHEN company_location = 'US' then "US"
 		ELSE "nonUS"
         END AS location,
         COUNT(IF(remote_ratio = 100,1,NULL)) remote,
-			COUNT(IF(remote_ratio = 50,0,NULL)) hybrid,
+		COUNT(IF(remote_ratio = 50,0,NULL)) hybrid,
         COUNT(IF(remote_ratio = 0,0,NULL)) office
 FROM ds_salaries
 GROUP BY location
@@ -124,7 +124,7 @@ ORDER BY remote desc
 (
 SELECT
 		CASE
-				WHEN company_location = 'US' then "US_comapnies"
+			WHEN company_location = 'US' then "US_comapnies"
 		END as location,
 	ROUND(COUNT(IF(remote_ratio = 100,1,NULL)) / COUNT(remote_ratio) * 100,0) AS remote_percentage,
    	ROUND(COUNT(IF(remote_ratio = 50,0,NULL)) / COUNT(remote_ratio) * 100,0) AS hybrid_percentage,
@@ -138,7 +138,7 @@ UNION
 (
 SELECT 
 		CASE
-				WHEN company_location != 'US' then "nonUS_comapnies"
+			WHEN company_location != 'US' then "nonUS_comapnies"
 		END as location,
 	ROUND(COUNT(IF(remote_ratio = 100,1,NULL)) / COUNT(remote_ratio) * 100,0) AS remote_percentage,
    	ROUND(COUNT(IF(remote_ratio = 50,0,NULL)) / COUNT(remote_ratio) * 100,0) AS hybrid_percentage,
@@ -153,7 +153,7 @@ ORDER BY total_entries DESC
 /*# Does remote option affect the salary?*/
 (SELECT
 		CASE
-				WHEN remote_ratio = '100' then "US_remote"
+			WHEN remote_ratio = '100' then "US_remote"
 		WHEN remote_ratio = '50' then "US_hybrid"
         WHEN remote_ratio = '0' then "US_office"
         ELSE "null"
@@ -166,7 +166,7 @@ ORDER BY average_salary)
 UNION
 (SELECT
 	CASE
-				WHEN remote_ratio = '100' then "nonUS_remote"
+			WHEN remote_ratio = '100' then "nonUS_remote"
 		WHEN remote_ratio = '50' then "nonUS_hybrid"
         WHEN remote_ratio = '0' then "nonUS_office"
         ELSE "null"
@@ -314,7 +314,7 @@ ORDER BY location, SE_EX_positions
 /*# How many people are in a different country than it is the company headquarters?*/
 SELECT
 		CASE
-				WHEN company_location = employee_residence then "Same"
+			WHEN company_location = employee_residence then "Same"
 		ELSE "different"
         END AS matching_countries,
 	ROUND(COUNT(company_location)/607 * 100,1) AS number_of_positions
